@@ -15,7 +15,6 @@ class AuthController extends Controller
 {
     public function auth(AuthRequest $request)
     {
-
         $data = $request->validated();
 
         if  (!auth()->attempt([
