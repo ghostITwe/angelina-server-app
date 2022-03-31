@@ -26,13 +26,19 @@ class RegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'last_name' => 'required|string',
+            'first_name' => 'required|string',
+            'middle_name' => 'required|string',
+            'birthday' => 'required|date',
+            'login' => 'required|string|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ];
     }
 
     public function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json([
             'status' => false,
+            'message' => 'Invalid registration data',
             'errors' => $validator->errors()
         ], 422));
     }
