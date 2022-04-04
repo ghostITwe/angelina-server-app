@@ -4,7 +4,6 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ObjectsResource;
-use App\Http\Resources\PictureCollection;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -18,14 +17,6 @@ class ObjectController extends Controller
             'information'
         ])->get();
 
-//        foreach ($objects as $object) {
-//            foreach ($object->pictures as $picture) {
-//                $object->pic = [
-//                    $picture->picture
-//                ];
-//            }
-//        }
-
         return response([
             'status' => true,
             'objects' => ObjectsResource::collection($objects)
@@ -34,6 +25,15 @@ class ObjectController extends Controller
 
     public function getObject($id)
     {
+        $object = Post::query()->with([
+            'category',
+            'pictures',
+            'information'
+        ])->findOrFail($id);
 
+        return response([
+            'status' => true,
+            'object' => ObjectsResource::make($object)
+        ])->setStatusCode(200);
     }
 }
