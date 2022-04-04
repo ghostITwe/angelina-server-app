@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class PictureCollection extends ResourceCollection
+class PictureResource extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
@@ -15,7 +15,6 @@ class PictureCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'picture' => $this->picture
         ];
     }

@@ -18,11 +18,11 @@ class ObjectsResource extends JsonResource
             'id' => $this->id,
             'location' => $this->location,
             'category' => $this->category->title,
-            'information' => [
+            'information' => isset($this->information) ? [
                 'year_grounds' => $this->information->year_grounds,
-                'description' => $this->information->description,
-            ],
-            'pictures' => new PictureCollection($this->pictures),
+                'description' => $this->information->description
+            ] : [],
+            'pictures' => PictureResource::collection($this->pictures)
         ];
     }
 }
