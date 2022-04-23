@@ -10,7 +10,6 @@ class UserController extends Controller
 {
     public function getUser(Request $request)
     {
-        dd($request->user());
         return UserResource::make($request->user());
     }
 }
