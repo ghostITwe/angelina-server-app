@@ -41,13 +41,11 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
-        $date = new DateTime($data['birthday']);
-
         $user = new User();
         $user->last_name = $data['last_name'];
         $user->first_name = $data['first_name'];
         $user->middle_name = $data['middle_name'];
-        $user->birthday = $date->format('Y-m-d');
+        $user->email = $data['email'];
         $user->login = $data['login'];
         $user->password = Hash::make($data['password']);
         $user->role = 'user';

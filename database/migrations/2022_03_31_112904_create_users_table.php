@@ -18,12 +18,10 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name');
-            $table->date('birthday');
+            $table->string('email')->unique();
             $table->string('login');
             $table->string('password');
             $table->enum('role', ['admin', 'user']);
-            $table->foreignId('picture_id')->nullable()->constrained()->nullOnDelete();
-            $table->float('rating')->default(0);
             $table->timestamps();
         });
     }

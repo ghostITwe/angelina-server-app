@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegistrationRequest extends FormRequest
+class CreateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,19 +26,15 @@ class RegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'last_name' => 'required|string',
-            'first_name' => 'required|string',
-            'middle_name' => 'required|string',
-            'email' => 'required|email|string|unique:users',
-            'login' => 'required|string|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'title' => 'required|string|unique:categories',
+            'image' => 'required|image|mimes:jpg,png|max:2048'
         ];
     }
 
     public function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json([
             'status' => false,
-            'message' => 'Invalid registration data',
+            'message' => 'Invalid data',
             'errors' => $validator->errors()
         ], 422));
     }

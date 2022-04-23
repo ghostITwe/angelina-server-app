@@ -4,18 +4,21 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PictureResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
         return [
-            'picture' => $this->picture
+            'full_name' => trim($this->last_name) . ' ' . trim($this->first_name) . ' ' . trim($this->middle_name),
+            'email' => $this->email,
+            'avatar' => $this->avatar,
+
         ];
     }
 }

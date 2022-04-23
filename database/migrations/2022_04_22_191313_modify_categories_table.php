@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('objects', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('location');
-            $table->timestamps();
+        Schema::table('categories', function (Blueprint $table) {
+            $table->foreignId('image_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('objects');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('image_id');
+        });
     }
 };

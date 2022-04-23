@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('test_user', function (Blueprint $table) {
-            $table->foreignId('test_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+        Schema::table('products', function (Blueprint $table) {
+            $table->foreignId('image_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 
@@ -26,9 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('test_user', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('user_id');
-            $table->dropConstrainedForeignId('test_id');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('image_id');
         });
     }
 };
