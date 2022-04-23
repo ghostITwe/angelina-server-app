@@ -58,6 +58,9 @@ class CategoryController extends Controller
         ]);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function deleteCategory($id)
     {
         $category = Category::query()->with([
@@ -69,7 +72,7 @@ class CategoryController extends Controller
 
         return response()->json([
            'status' => true,
-           'message' => 'Category delete'
+           'message' => 'Category deleted successfully'
         ]);
     }
 }
