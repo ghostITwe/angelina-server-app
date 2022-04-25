@@ -18,7 +18,7 @@ class ProductController extends Controller
     {
         $product = Product::query()->with([
             'category',
-            'image'
+            'images'
         ])->findOrFail($id);
 
 
@@ -32,7 +32,7 @@ class ProductController extends Controller
     {
         $products = Product::query()->with([
             'category',
-            'image'
+            'images'
         ])->get();
 
 
@@ -48,20 +48,22 @@ class ProductController extends Controller
 
         $category = Category::query()->where('title', $data['category'])->firstOrFail();
 
-        $image = new Image();
-        $image->path = Storage::disk('public')->put('products', $request->file('image'));
-        $image->save();
-
         $product = new Product();
         $product->name = $data['name'];
         $product->description = $data['description'];
         $product->price = $data['price'];
         $product->category_id = $category->id;
-        $product->image_id = $image->id;
         $product->save();
 
+        foreach ($request->file('images') as $image) {
+            $product->images()->create([
+                'product_id' => $product->id,
+                'path' => $image->store('products', 'public')
+            ]);
+        }
+
         return response()->json([
-           'status' => true
+            'status' => true
         ]);
     }
 
@@ -72,7 +74,7 @@ class ProductController extends Controller
     {
         $product = Product::query()->with([
             'category',
-            'image'
+            'images'
         ])->findOrFail($id);
 
         $product->deleteOrFail();

@@ -13,8 +13,4 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
-
-    public function image() {
-        return $this->belongsTo(Image::class);
-    }
 }

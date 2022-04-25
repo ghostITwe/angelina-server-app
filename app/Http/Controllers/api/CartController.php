@@ -3,52 +3,78 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CartRequest;
-use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Product;
-use App\Models\User;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 
-class cartController extends Controller
+class CartController extends Controller
 {
-    //
-    public function addCart (CartRequest $request) {
-        $data = $request->validated();
-        $product = Product::query()->findOrFail($request['product_id']);
-        if($cart = Cart::where(['user_id' => $data['user'],'product_id' => $product->id])->first()){
-            $cart = Cart::create([
-                'user_id' => $data['user'],
-                'product_id' => $data['product_id']
-            ]);
-            $cart->save();
-            return response()->json([
-                'status' => true
-            ]);
-        } else{
+    public $currentCart;
+
+    public function getCart() {
+        $this->currentCart = Order::query()
+            ->with([
+                'user',
+                'products'
+            ])
+            ->where('type', 'Корзина')
+            ->where('user_id', auth()->user()->id)->first();
+
+        if (empty($this->currentCart)) {
             return response()->json([
                 'status' => false,
-                'error' => 'This item is exist'
+                'message' => 'Cart empty, please add items'
             ]);
         }
 
-        // Какую ошибку вы вывести тут
+        return response()->json([
+            'status' => true,
+            'cart' => $this->currentCart
+        ]);
     }
-    public function getCart($user_id) {
 
-        return Cart::query()->with(['products'])->findOrFail(['user_id' => $user_id]);
-    }
-    public function deleteProduct(CartRequest $request) {
-        $data = $request->validated();
-        if(Cart::query()->where(['user_id' => $request['user_id'],'product_id' => $request['product_id']])->delete()) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Product deleted successfully from cart'
+    public function addItem($id)
+    {
+        $currentCart = Order::query()
+            ->with([
+                'user',
+                'products'
+            ])
+            ->where('type', 'Корзина')
+            ->where('user_id', auth()->user()->id)->first();
+
+        if (empty($currentCart)) {
+            $currentCart = Order::create([
+                'user_id' => auth()->user()->getKey()
             ]);
         }
-        throw new HttpResponseException(response()->json([
-            'status' => false,
-            'errors' => 'Current product didn`t find'
-        ], 422));
+
+        if ($currentCart->products->contains($id)) {
+            $cartItem = $currentCart->products()->where('product_id', $id)->first()->pivot;
+            $cartItem->quantity++;
+            $cartItem->update();
+        } else {
+            $newItem = Product::query()->findOrFail($id);
+            $currentCart->products()->attach($id, ['quantity' => 1, 'cost' => $newItem->price]);
+        }
+
+        return response()->json([
+           'status' => true,
+           'message' => 'Item added to cart',
+           'cart' => $currentCart
+        ]);
+    }
+
+    public function deleteItem($id)
+    {
+        $currentCart = Order::query()
+            ->with([
+                'user',
+                'products'
+            ])
+            ->where('type', 'Корзина')
+            ->where('user_id', auth()->user()->id)->first();
+
+
     }
 }

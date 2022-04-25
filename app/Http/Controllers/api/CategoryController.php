@@ -16,7 +16,6 @@ class CategoryController extends Controller
     {
         $categories = Category::query()->with([
             'products',
-            'image'
         ])->get();
 
         return response()->json([
@@ -30,7 +29,6 @@ class CategoryController extends Controller
     {
         $category = Category::query()->with([
             'products',
-            'image'
         ])->where('title', $title)->firstOrFail();
 
         return response()->json([
@@ -45,12 +43,7 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->title = $data['title'];
-
-        $image = new Image();
-        $image->path = Storage::disk('public')->put('categories', $request->file('image'));
-        $image->save();
-
-        $category->image_id = $image->id;
+        $category->image = Storage::disk('public')->put('categories', $request->file('image'));
         $category->save();
 
         return response()->json([
@@ -65,7 +58,6 @@ class CategoryController extends Controller
     {
         $category = Category::query()->with([
             'products',
-            'image'
         ])->findOrFail($id);
 
         $category->deleteOrFail();

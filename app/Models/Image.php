@@ -9,13 +9,13 @@ class Image extends Model
 {
     use HasFactory;
 
-    public function category()
-    {
-        return $this->hasOne(Category::class);
-    }
+    protected $fillable = [
+        'product_id',
+        'path'
+    ];
 
     public function product()
     {
-        return $this->hasOne(Product::class);
+        return $this->belongsTo(Product::class);
     }
 }

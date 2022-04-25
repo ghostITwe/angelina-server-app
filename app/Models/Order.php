@@ -8,16 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'user_id',
-        'product_id',
-        'count'
-    ];
+
+    protected $fillable = ['user_id'];
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class, 'order_product')->withPivot('cost', 'quantity');
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
