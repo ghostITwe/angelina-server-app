@@ -35,4 +35,13 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function products() {
+        return $this->belongsToMany(Product::class);
+    }
+    public function orders() {
+        return $this->hasMany(Order::class);
+    }
+
+
 }
