@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CartResource;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class CartController extends Controller
 
         return response()->json([
             'status' => true,
-            'cart' => $this->currentCart
+            'cart' => CartResource::make($this->currentCart)
         ]);
     }
 
