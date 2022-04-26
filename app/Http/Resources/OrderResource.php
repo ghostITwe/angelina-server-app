@@ -9,7 +9,9 @@ class OrderResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'products' => ProductResource::collection($this->products)
+            'date_order' => $this->updated_at,
+            'delivery_address' => $this->delivery_address,
+            'products' => CartItemResource::collection($this->products)
         ];
     }
 }
