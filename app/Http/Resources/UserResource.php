@@ -18,7 +18,6 @@ class UserResource extends JsonResource
             'full_name' => trim($this->last_name) . ' ' . trim($this->first_name) . ' ' . trim($this->middle_name),
             'email' => $this->email,
             'avatar' => $this->avatar,
-
         ];
     }
 }
