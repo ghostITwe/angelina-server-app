@@ -13,7 +13,7 @@ class OrderController extends Controller
         $orders = Order::query()->with([
             'user',
             'products'
-        ])->get();
+        ])->where('type', 'Заказ')->get();
 
         return response()->json([
             'status' => true,

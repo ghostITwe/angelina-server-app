@@ -23,7 +23,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', [UserController::class, 'getUser']);
 //    Route::get('/profile/history', [UserController::class, 'getUser']);
 
-
     Route::post('/categories/create', [CategoryController::class, 'createCategory']);
     Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory']);
 
@@ -36,7 +35,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 //    Route::post('/orders/create',[OrderController::class,'craeteOrder']);
 //    Route::delete('/orders/{id}',[OrderController::class,'deleteOrder']);
 //
-    Route::get('/cart',[CartController::class,'getCart']);
-    Route::get('/cart/add/{id}',[CartController::class,'addItem']);
+    Route::group(['prefix' => 'cart'], function () {
+        Route::get('/',[CartController::class,'getCart']);
+        Route::post('/add/{id}',[CartController::class,'addItem']);
+        Route::post('confirm', [CartController::class, 'cartConfirm']);
+    });
 //    Route::post('/cart/delete',[CartController::class,'deleteProduct']);
 });

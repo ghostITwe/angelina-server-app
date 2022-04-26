@@ -34,6 +34,25 @@ class CartController extends Controller
         ]);
     }
 
+    public function cartConfirm()
+    {
+        $currentCart = Order::query()
+            ->with([
+                'user',
+                'products'
+            ])
+            ->where('type', 'Корзина')
+            ->where('user_id', auth()->user()->id)->first();
+
+        $currentCart->type = 'Заказ';
+        $currentCart->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cart to Order confirmed'
+        ]);
+    }
+
     public function addItem($id)
     {
         $currentCart = Order::query()
