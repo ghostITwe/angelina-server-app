@@ -23,7 +23,7 @@ class AuthController extends Controller
         ])) {
             return response()->json([
                 'status' => false,
-                'message' => 'Неправильно введены логин или пароль'
+                'message' => 'Login or password entered incorrectly'
             ], 422);
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -48,6 +49,10 @@ class Handler extends ExceptionHandler
                 'status' => false,
                 'message' => 'Data not found'
             ])->setStatusCode(404);
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
     }
 }

@@ -49,7 +49,7 @@ class CartController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Cart to Order confirmed'
+            'message' => 'Order confirmed'
         ]);
     }
 

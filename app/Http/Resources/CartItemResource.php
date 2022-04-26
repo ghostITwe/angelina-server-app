@@ -16,7 +16,7 @@ class CartItemResource extends JsonResource
     {
         return [
             'quantity' => $this->pivot->quantity,
-            'cost' => $this->pivot->cost,
+            'cost' => $this->pivot->cost / 100,
             'products' => ProductResource::make($this)
         ];
     }
