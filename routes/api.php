@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth', [AuthController::class, 'auth'])->name('login');
 Route::post('/registration', [AuthController::class, 'registration']);
 
-Route::get('/categories', [CategoryController::class, 'getCategoryList']);
+Route::get('/categories', [CategoryController::class, 'getCategoryList'])->middleware('checkDatabase');
 Route::get('/categories/{title}', [CategoryController::class, 'getCategory']);
 
 Route::get('/products/{id}', [ProductController::class, 'getProduct']);
