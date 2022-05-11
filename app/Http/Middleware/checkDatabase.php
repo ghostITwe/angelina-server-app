@@ -17,10 +17,14 @@ class checkDatabase
     public function handle(Request $request, Closure $next)
     {
         if ($request->hasHeader('database') && !empty($request->header('database'))) {
-            $values = config('database.databases.'.$request->header('database'));
-            env('DB_DATABASE', $values['database']);
-            env('DB_USERNAME', $values['username']);
-            env('DB_PASSWORD', $values['password']);
+            $values = config('usersDatabase.'.$request->header('database'));
+            config([
+                'database.connections.mysql.host' => $values['host'],
+                'database.connections.mysql.database' => $values['database'],
+                'database.connections.mysql.username' => $values['username'],
+                'database.connections.mysql.password' => $values['password'],
+            ]);
         }
+        return  $next($request);
     }
 }

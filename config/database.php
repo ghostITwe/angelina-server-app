@@ -6,14 +6,6 @@ return [
 
     'default' => env('DB_CONNECTION', 'mysql'),
 
-    'databases' => [
-        'test' => [
-            'database' =>  'test',
-            'username' => 'testName',
-            'password' => 'testPassword',
-        ]
-    ],
-
     'connections' => [
 
         'sqlite' => [
