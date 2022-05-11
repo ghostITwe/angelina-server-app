@@ -23,10 +23,9 @@ Route::group(['middleware' => ['checkDatabase']], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('/profile', [UserController::class, 'getUser']);
 //    Route::get('/profile/history', [UserController::class, 'getUser']);
-        Route::post('/categories/create', [CategoryController::class, 'createCategory'])->middleware('admin');
 
         Route::group(['middleware' => ['admin']], function () {
-//            Route::post('/categories/create', [CategoryController::class, 'createCategory']);
+            Route::post('/categories/create', [CategoryController::class, 'createCategory']);
             Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory']);
 
             Route::post('/products/create', [ProductController::class, 'createProduct']);
